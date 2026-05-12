@@ -1,0 +1,50 @@
+{
+  "name": "citekit",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "npm@11.9.0",
+  "description": "Open-source CLI and TypeScript toolkit for AI citation visibility, AEO/GEO readiness, and answer-engine benchmarking.",
+  "homepage": "https://github.com/Keesan12/CiteKit#readme",
+  "bugs": {
+    "url": "https://github.com/Keesan12/CiteKit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Keesan12/CiteKit.git"
+  },
+  "workspaces": [
+    "packages/citekit-core",
+    "packages/citekit-cli"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "verify": "npm run typecheck && npm run lint && npm run test && npm run build && npm run boundary:public",
+    "boundary:public": "node ./tools/check-public-oss-boundary.mjs",
+    "clean": "rimraf packages/*/dist packages/*/coverage node_modules"
+  },
+  "keywords": [
+    "aeo",
+    "geo",
+    "ai-search",
+    "answer-engine-optimization",
+    "citations",
+    "llms"
+  ],
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.2",
+    "@typescript-eslint/parser": "^8.59.2",
+    "eslint": "^8.57.0",
+    "eslint-import-resolver-typescript": "^3.10.1",
+    "eslint-plugin-import": "^2.32.0",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.5",
+    "turbo": "^2.5.5",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  }
+}

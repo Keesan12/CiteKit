@@ -1,0 +1,32 @@
+{
+  "name": "citekit-cli",
+  "version": "0.1.0",
+  "description": "Public CiteKit CLI for scanning AI citation visibility, running diagnostics, and benchmarking answer-engine readiness.",
+  "license": "MIT",
+  "homepage": "https://github.com/Keesan12/CiteKit/tree/main/packages/citekit-cli",
+  "bugs": {
+    "url": "https://github.com/Keesan12/CiteKit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Keesan12/CiteKit.git",
+    "directory": "packages/citekit-cli"
+  },
+  "keywords": ["aeo", "citations", "cli", "geo", "llm"],
+  "bin": { "citekit": "./dist/index.mjs" },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --out-dir dist",
+    "dev": "tsup src/index.ts --format esm --out-dir dist --watch",
+    "lint": "eslint \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "citekit-core": "*",
+    "commander": "^12.0.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.0",
+    "dotenv": "^16.4.0"
+  }
+}

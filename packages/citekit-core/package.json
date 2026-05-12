@@ -1,0 +1,47 @@
+{
+  "name": "citekit-core",
+  "version": "0.1.0",
+  "description": "Public CiteKit core library for crawl, probe, monitor, diagnose, fix, and benchmark workflows.",
+  "license": "MIT",
+  "homepage": "https://github.com/Keesan12/CiteKit/tree/main/packages/citekit-core",
+  "bugs": {
+    "url": "https://github.com/Keesan12/CiteKit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Keesan12/CiteKit.git",
+    "directory": "packages/citekit-core"
+  },
+  "keywords": ["aeo", "citations", "library", "monitoring", "oss"],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --out-dir dist",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --out-dir dist --watch",
+    "lint": "eslint \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.95.1",
+    "@google/generative-ai": "^0.24.1",
+    "@supabase/supabase-js": "^2.56.0",
+    "cheerio": "^1.0.0",
+    "got": "^14.0.0",
+    "openai": "^6.37.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  },
+  "NOTE": "martin-loop public npm only — no private modules allowed here"
+}
