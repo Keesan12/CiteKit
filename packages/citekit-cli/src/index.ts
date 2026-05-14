@@ -9,6 +9,7 @@ import { monitorCommand } from "./commands/monitor";
 import { probeCommand } from "./commands/probe";
 import { scanCommand } from "./commands/scan";
 import { scoreCommand } from "./commands/score";
+import { watchCommand } from "./commands/watch";
 import { buildExamplesHelp, formatCliError } from "./commands/shared";
 
 export function buildProgram(): Command {
@@ -31,6 +32,7 @@ export function buildProgram(): Command {
       ),
     )
     .addCommand(scanCommand)
+    .addCommand(watchCommand)
     .addCommand(monitorCommand)
     .addCommand(doctorCommand)
     .addCommand(benchmarkCommand)

@@ -1,0 +1,72 @@
+# CiteKit CI Citation Monitor — GitHub Actions example
+#
+# Runs citekit scan on every deploy to main and fails the workflow
+# if your AI citation score drops below a threshold.
+#
+# Required secrets (set in Settings → Secrets → Actions):
+#   OPENAI_API_KEY or ANTHROPIC_API_KEY — at least one provider key
+#   CITEOPS_API_KEY (optional) — push results to CiteOps Cloud dashboard
+#
+# Usage:
+#   Copy this file to .github/workflows/citekit-scan.yml in your repo.
+#   Set BRAND_NAME and BRAND_DOMAIN below.
+
+name: AI Citation Scan
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Run every day at 8am UTC as a standing citation health check
+    - cron: "0 8 * * *"
+  workflow_dispatch:
+
+env:
+  BRAND_NAME: "Your Brand"
+  BRAND_DOMAIN: "yourbrand.com"
+  COMPETITOR_1: "Competitor One"
+  COMPETITOR_2: "Competitor Two"
+  # Fail the scan if citation score drops below this threshold (0-100)
+  MIN_SCORE: "30"
+
+jobs:
+  citation-scan:
+    name: AI Visibility Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run CiteKit scan
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets.GOOGLE_GENERATIVE_AI_API_KEY }}
+          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+          CITEOPS_API_KEY: ${{ secrets.CITEOPS_API_KEY }}
+        run: |
+          npx citekit-cli scan \
+            --name "$BRAND_NAME" \
+            --domain "$BRAND_DOMAIN" \
+            --competitor "$COMPETITOR_1" "$COMPETITOR_2" \
+            --prompt-count 5 \
+            --json \
+            ${CITEOPS_API_KEY:+--cloud} \
+            | tee /tmp/scan-result.json
+
+          # Extract score and fail if below threshold
+          SCORE=$(cat /tmp/scan-result.json | node -e "
+            const d = require('fs').readFileSync('/dev/stdin','utf8');
+            const r = JSON.parse(d);
+            process.stdout.write(String(r.overallScore ?? 0));
+          ")
+          echo "AI Citation Score: $SCORE / 100  (threshold: $MIN_SCORE)"
+          if [ "$SCORE" -lt "$MIN_SCORE" ]; then
+            echo "::error::Citation score $SCORE is below minimum threshold $MIN_SCORE. Run 'citekit diagnose' locally to see gaps."
+            exit 1
+          fi
+
+      - name: Upload scan result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: citekit-scan-${{ github.run_id }}
+          path: /tmp/scan-result.json
+          retention-days: 30
