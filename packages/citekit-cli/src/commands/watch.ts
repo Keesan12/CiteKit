@@ -44,15 +44,22 @@ async function runWatchLoop(input: CliBrandInput, options: {
   const intervalMs = options.intervalMin * 60 * 1000;
   let prev: ScanSummary | null = null;
   let iteration = 0;
+  let keepRunning = true;
 
   const formatTs = () => new Date().toLocaleTimeString("en-US", { hour12: false });
+  const stopWatching = () => {
+    keepRunning = false;
+  };
+
+  process.once("SIGINT", stopWatching);
+  process.once("SIGTERM", stopWatching);
 
   process.stdout.write(
     `CiteKit Watch — monitoring ${input.domain} every ${options.intervalMin} min\n` +
     `Press Ctrl+C to stop.\n\n`,
   );
 
-  while (true) {
+  while (keepRunning) {
     iteration++;
     const spinner = ora(`[${formatTs()}] Running scan #${iteration}…`).start();
 
@@ -72,6 +79,9 @@ async function runWatchLoop(input: CliBrandInput, options: {
     process.stdout.write(`\n  Next run in ${options.intervalMin} min. Ctrl+C to exit.\n\n`);
     await new Promise<void>((resolve) => setTimeout(resolve, intervalMs));
   }
+
+  process.off("SIGINT", stopWatching);
+  process.off("SIGTERM", stopWatching);
 }
 
 export const watchCommand = addExamples(
