@@ -1,17 +1,15 @@
 # CiteKit
 
-Open-source AI visibility tooling for teams that want to understand whether answer engines can crawl, cite, and recommend their brand.
+[![npm](https://img.shields.io/npm/v/citekit-cli?label=citekit-cli&color=2563eb)](https://www.npmjs.com/package/citekit-cli)
+[![npm](https://img.shields.io/npm/v/citekit-core?label=citekit-core&color=2563eb)](https://www.npmjs.com/package/citekit-core)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Tests](https://img.shields.io/badge/tests-53%20passing-brightgreen)](packages/citekit-core)
 
-CiteKit is the free developer and growth-team hook for the CiteOps ecosystem. It gives you local, reproducible scans for SEO, AEO, GEO, local, and voice-search readiness. CiteOps Cloud is the paid autonomous operator that turns those findings into scheduled monitoring, PR/CMS drafts, verification loops, proof cards, and TraceIntelligence.
+**Open-source CLI to find out why ChatGPT, Claude, Perplexity, and Gemini aren't recommending your brand — and what to fix first.**
 
-## What CiteKit Does
+CiteKit scans your domain, probes live AI engines, diagnoses citation gaps, and generates ranked fixes. It's the free, local, self-hostable scanner that powers CiteOps Cloud.
 
-- Scans a brand/domain against live provider probes when keys are available.
-- Benchmarks crawl-based AI-readiness signals such as `llms.txt`, `robots.txt`, sitemap, schema, canonical coverage, pricing/docs/comparison pages, freshness, author signals, and stats.
-- Monitors share-of-answer style visibility across prompt/provider panels.
-- Diagnoses why a brand is losing AI recommendations.
-- Generates safe fix recommendations for answer-first content, schema, `llms.txt`, proof pages, comparison pages, and crawlability gaps.
-- Checks provider/integration readiness without printing raw secrets.
+> **Keywords**: AEO, GEO, AI citation, answer engine optimization, generative engine optimization, ChatGPT SEO, Perplexity SEO, llms.txt, AI visibility, brand citation, AI recommendations
 
 ## Install
 
@@ -19,47 +17,86 @@ CiteKit is the free developer and growth-team hook for the CiteOps ecosystem. It
 npm install -g citekit-cli
 ```
 
-Or run from source:
+One command to see where you stand:
 
 ```bash
-git clone https://github.com/Keesan12/CiteKit.git
-cd CiteKit
-npm install
-npm run build
-node packages/citekit-cli/dist/index.mjs --help
+citekit scan --name "Acme Corp" --domain acme.com
 ```
+
+## What CiteKit Does
+
+- **Scans** your domain for AI-readiness: `llms.txt`, robots.txt crawler access, schema markup, FAQ pages, comparison pages, pricing visibility
+- **Probes** live AI engines (ChatGPT, Claude, Perplexity) to measure whether your brand is mentioned and cited when asked relevant questions
+- **Benchmarks** your AI readiness against a curated market dataset — see where you rank
+- **Diagnoses** the exact reasons you're losing AI citations to competitors
+- **Generates** ranked fix candidates (schema, `llms.txt`, comparison pages, off-site proof) with predicted citation lift estimates
+- **Watches** your domain continuously and alerts you when citation rate changes (`citekit watch`)
+- **Integrates** with CI/CD — fail builds when citation rate drops below threshold
 
 ## Quick Start
 
 ```bash
+# Check what's blocking AI crawlers
 citekit doctor
+
+# Full scan with competitor comparison
+citekit scan \
+  --name "Acme Corp" \
+  --domain acme.com \
+  --competitor "Competitor A" "Competitor B"
+
+# Watch your domain (polls every 30 minutes, diffs results)
+citekit watch --name "Acme Corp" --domain acme.com --interval 30
+
+# Benchmark against 100+ real domains
 citekit benchmark --preset founders --max-pages 3 --json
-citekit scan --name "Your Brand" --domain yourbrand.com --competitor "Competitor One" "Competitor Two"
-citekit monitor --name "Your Brand" --domain yourbrand.com --prompt-count 8
+
+# Monitor share-of-voice across AI engines
+citekit monitor --name "Acme Corp" --domain acme.com --prompt-count 8
 ```
 
-Provider-backed commands use environment variables when available:
+Add your API keys for live provider probes:
 
 ```bash
-OPENAI_API_KEY=
-ANTHROPIC_API_KEY=
-GOOGLE_GENERATIVE_AI_API_KEY=
-PERPLEXITY_API_KEY=
-OPENROUTER_API_KEY=
+export OPENAI_API_KEY=sk-...
+export ANTHROPIC_API_KEY=sk-ant-...
+export PERPLEXITY_API_KEY=pplx-...
+export GOOGLE_GENERATIVE_AI_API_KEY=AIza...
 ```
 
-Missing keys are reported as blockers. CiteKit does not fake provider results.
+Missing keys are reported as blockers. CiteKit never fakes provider results.
+
+## CI/CD Integration
+
+Add this to your GitHub Actions workflow to catch citation regressions on every deploy:
+
+```yaml
+- name: CiteKit citation check
+  uses: Keesan12/CiteKit/.github/workflows/citekit-scan.yml@main
+  with:
+    domain: acme.com
+    brand_name: "Acme Corp"
+    min_citation_rate: "0.15"
+  env:
+    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+```
+
+See [`examples/github-action-ci-scan.yml`](examples/github-action-ci-scan.yml) for the full template.
 
 ## Commands
 
-- `citekit doctor`: Inspect provider and integration readiness with masked evidence.
-- `citekit scan`: Run prompt generation, provider probes, diagnosis, and fix recommendations.
-- `citekit monitor`: Measure prompt/provider visibility and routing signals.
-- `citekit probe`: Run one prompt against configured providers.
-- `citekit diagnose`: Explain why the brand is winning or losing.
-- `citekit fix`: Generate safe fix drafts from diagnosis output.
-- `citekit score`: Score citation/recommendation outcomes from probe output.
-- `citekit benchmark`: Crawl preset domain sets and score answer-engine foundation readiness.
+| Command | What it does |
+|---|---|
+| `citekit doctor` | Inspect provider and integration readiness with masked evidence |
+| `citekit scan` | Full scan: probes + crawl signals + diagnosis + ranked fixes |
+| `citekit watch` | Continuous monitoring — polls on interval, diffs and alerts on changes |
+| `citekit monitor` | Measure share-of-voice visibility across prompt/provider panels |
+| `citekit probe` | Run one prompt against configured providers |
+| `citekit diagnose` | Explain why the brand is winning or losing citations |
+| `citekit fix` | Generate safe fix drafts from diagnosis output |
+| `citekit score` | Score citation/recommendation outcomes from probe output |
+| `citekit benchmark` | Crawl preset domain sets and score AI-readiness foundation |
 
 ## Repository Structure
 
