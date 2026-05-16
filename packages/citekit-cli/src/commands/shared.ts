@@ -11,6 +11,7 @@ import {
   runProbeBatch,
   scoreExtraction,
   type BrandSeed,
+  type CrawlResult,
   type DiagnosisGap,
   type GeneratedFix,
   type ProbeRunResult,
@@ -22,6 +23,21 @@ loadEnv();
 
 const COMMAND_NOTE =
   "Provider-backed commands require at least one configured provider key such as OPENAI_API_KEY, ANTHROPIC_API_KEY, GOOGLE_API_KEY, PERPLEXITY_API_KEY, or OPENROUTER_API_KEY.";
+
+export interface EEATSignal {
+  label: string;
+  status: "pass" | "warn" | "missing";
+  detail?: string;
+  fix?: string;
+}
+
+export interface AgentAction {
+  priority: number;
+  action_type: "create_file" | "update_schema" | "add_content" | "configure";
+  description: string;
+  predicted_lift: number;
+  citekit_command?: string;
+}
 
 function requireValue<T>(value: T | undefined, message: string): T {
   if (value === undefined) {
@@ -73,6 +89,8 @@ export interface ScanSummary {
   recommendedFixes: string[];
   prompts: ScanPromptResult[];
   fixes: GeneratedFix[];
+  eeatSignals: EEATSignal[];
+  agentActions: AgentAction[];
 }
 
 interface BrandOptionValues {
@@ -355,13 +373,14 @@ export async function runScan(
     ),
   );
 
-  return summarizeScan(input, promptResults, fixes);
+  return summarizeScan(input, promptResults, fixes, checkEEATSignals(site));
 }
 
 export function summarizeScan(
   input: CliBrandInput,
   promptResults: ScanPromptResult[],
   fixes: GeneratedFix[],
+  eeatSignals: EEATSignal[] = [],
 ): ScanSummary {
   const statusAverage =
     promptResults.reduce((sum, result) => sum + STATUS_WEIGHTS[result.score.recommendation_status], 0) /
@@ -422,7 +441,153 @@ export function summarizeScan(
     recommendedFixes,
     prompts: promptResults,
     fixes,
+    eeatSignals,
+    agentActions: buildAgentActions(fixes, input.domain),
   };
+}
+
+function sig(
+  label: string,
+  status: EEATSignal["status"],
+  detail?: string,
+  fix?: string,
+): EEATSignal {
+  const s: EEATSignal = { label, status };
+  if (detail !== undefined) s.detail = detail;
+  if (fix !== undefined) s.fix = fix;
+  return s;
+}
+
+export function checkEEATSignals(site: CrawlResult): EEATSignal[] {
+  const allSchemas: Record<string, unknown>[] = [];
+  for (const page of site.pages) {
+    for (const raw of page.schemaJsonExisting) {
+      try {
+        const parsed: unknown = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          for (const item of parsed) {
+            if (item && typeof item === "object") allSchemas.push(item as Record<string, unknown>);
+          }
+        } else if (parsed && typeof parsed === "object") {
+          allSchemas.push(parsed as Record<string, unknown>);
+        }
+      } catch { /* skip invalid JSON */ }
+    }
+  }
+
+  const getTypes = (s: Record<string, unknown>): string[] => {
+    const t = s["@type"];
+    if (!t) return [];
+    return Array.isArray(t) ? t.map(String) : [String(t)];
+  };
+
+  const orgSchemas = allSchemas.filter((s) =>
+    getTypes(s).some((t) => t === "Organization" || t === "LocalBusiness"),
+  );
+
+  const hasSameAs = orgSchemas.some((s) => {
+    const raw = s["sameAs"];
+    const links = Array.isArray(raw) ? raw : raw ? [raw] : [];
+    return links.some(
+      (l) =>
+        typeof l === "string" &&
+        (l.includes("wikidata.org") || l.includes("wikipedia.org") || l.includes("linkedin.com")),
+    );
+  });
+
+  const hasAuthor = allSchemas.some((s) => getTypes(s).includes("Person") || Boolean(s["author"]));
+  const hasRating = allSchemas.some((s) => s["aggregateRating"] || getTypes(s).includes("AggregateRating"));
+
+  const articles = allSchemas.filter((s) =>
+    getTypes(s).some((t) => t === "Article" || t === "BlogPosting" || t === "NewsArticle"),
+  );
+  const freshArticles = articles.filter((s) => s["datePublished"] || s["dateModified"]);
+
+  const hasContactPoint = orgSchemas.some((s) => Boolean(s["contactPoint"]));
+  const hasKnowsAbout = allSchemas.some((s) => Boolean(s["knowsAbout"]));
+
+  const freshnessStatus =
+    articles.length === 0
+      ? "warn"
+      : freshArticles.length === articles.length
+        ? "pass"
+        : freshArticles.length > 0
+          ? "warn"
+          : "missing";
+  const freshnessDetail =
+    articles.length > 0
+      ? `${freshArticles.length}/${articles.length} articles have date fields`
+      : "No Article schema found";
+
+  const signals: EEATSignal[] = [
+    sig("Organization schema", orgSchemas.length > 0 ? "pass" : "missing", undefined,
+      "Add Organization JSON-LD with name, url, logo, and description"),
+    sig("Wikidata / Wikipedia entity link", hasSameAs ? "pass" : "missing", undefined,
+      'Add sameAs: ["https://www.wikidata.org/wiki/Q..."] to Organization — disambiguates your brand for AI models'),
+    sig("Author markup (Person schema)", hasAuthor ? "pass" : "missing", undefined,
+      "Add Person schema with name, jobTitle, knowsAbout on article and about pages"),
+    sig("Review / AggregateRating", hasRating ? "pass" : "warn",
+      hasRating ? undefined : "No AggregateRating detected",
+      "Add AggregateRating to product or service pages — social proof is a strong AI citation signal"),
+    sig("Content freshness signals", freshnessStatus, freshnessDetail,
+      "Add datePublished and dateModified to all Article schema — fresh content gets cited more"),
+    sig("contactPoint in Organization", hasContactPoint ? "pass" : "missing", undefined,
+      "Add contactPoint to Organization schema (trust signal — shows you are a real, reachable entity)"),
+    sig("knowsAbout (topic expertise)", hasKnowsAbout ? "pass" : "missing", undefined,
+      'Add knowsAbout: ["AI visibility", "GEO"] to Organization schema — declares topic authority to AI models'),
+  ];
+
+  if (!site.llmsTxtExists) {
+    signals.unshift(
+      sig("llms.txt (AI crawler access)", "missing", undefined,
+        "Run: citekit generate-llms-txt --name <brand> --domain <domain>  (highest-impact GEO fix)"),
+    );
+  }
+
+  return signals;
+}
+
+function mapFixTypeToActionType(fixType: string): AgentAction["action_type"] {
+  if (fixType.includes("llms") || fixType.includes("robots")) return "create_file";
+  if (fixType.includes("schema")) return "update_schema";
+  if (fixType.includes("faq") || fixType.includes("page") || fixType.includes("content")) return "add_content";
+  return "configure";
+}
+
+function mapFixTypeToCommand(fixType: string, domain: string): string | undefined {
+  if (fixType.includes("llms")) return `citekit generate-llms-txt --domain ${domain}`;
+  if (fixType.includes("voice") || fixType.includes("speakable") || fixType.includes("faq"))
+    return `citekit voice --domain ${domain}`;
+  return undefined;
+}
+
+export function buildAgentActions(fixes: GeneratedFix[], domain: string): AgentAction[] {
+  return fixes.slice(0, 8).map((fix, i) => {
+    const liftHint = (fix as { predicted_lift?: number }).predicted_lift;
+    const cmd = mapFixTypeToCommand(fix.fix_type, domain);
+    const action: AgentAction = {
+      priority: i + 1,
+      action_type: mapFixTypeToActionType(fix.fix_type),
+      description: fix.title,
+      predicted_lift: typeof liftHint === "number" ? liftHint : Math.max(5, 28 - i * 3),
+    };
+    if (cmd !== undefined) action.citekit_command = cmd;
+    return action;
+  });
+}
+
+export function renderUpgradePrompt(gapCount: number): string {
+  const bar = chalk.yellow("━".repeat(44));
+  const noun = gapCount === 1 ? "gap" : "gaps";
+  return [
+    "",
+    bar,
+    `  ${chalk.bold(`${gapCount} citation ${noun} found.`)} Left unfixed, competitors keep the citations.`,
+    "  Auto-fix with GitHub PRs, continuous monitoring, and proof cards:",
+    `  ${chalk.cyan("→ citeops.ai/upgrade")}`,
+    bar,
+    "",
+  ].join("\n");
 }
 
 export function renderScanReport(summary: ScanSummary): string {
@@ -447,6 +612,34 @@ export function renderScanReport(summary: ScanSummary): string {
     "Recommended fixes",
     ...summary.recommendedFixes.map((fix) => `-> ${fix}`),
   ];
+
+  if (summary.eeatSignals.length > 0) {
+    lines.push("", chalk.bold("E-E-A-T & Entity Authority Signals"));
+    for (const signal of summary.eeatSignals) {
+      const icon =
+        signal.status === "pass"
+          ? chalk.green("✓")
+          : signal.status === "warn"
+            ? chalk.yellow("~")
+            : chalk.red("✗");
+      const statusLabel =
+        signal.status === "pass"
+          ? chalk.green("PASS")
+          : signal.status === "warn"
+            ? chalk.yellow("WARN")
+            : chalk.red("MISSING");
+      const label = signal.label.padEnd(36, " ");
+      const detail = signal.detail ? `  ${chalk.dim(signal.detail)}` : "";
+      lines.push(`${icon} ${label} ${statusLabel}${detail}`);
+      if (signal.status !== "pass" && signal.fix) {
+        lines.push(`  ${chalk.dim(`fix: ${signal.fix}`)}`);
+      }
+    }
+  }
+
+  const totalGaps =
+    summary.missingPromptCount + summary.eeatSignals.filter((s) => s.status !== "pass").length;
+  lines.push(renderUpgradePrompt(totalGaps));
 
   return `${lines.join("\n")}\n`;
 }

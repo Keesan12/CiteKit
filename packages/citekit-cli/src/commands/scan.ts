@@ -13,6 +13,25 @@ import {
   type ScanSummary,
 } from "./shared";
 
+function buildAgentOutput(summary: ScanSummary): Record<string, unknown> {
+  return {
+    schema_version: "citekit/agent/v1",
+    scan_at: new Date().toISOString(),
+    brand: summary.command.split("--domain ")[1]?.split(" ")[0] ?? "unknown",
+    overall_score: summary.overallScore,
+    recommendation_status: summary.recommendationStatus,
+    citation_share_pct: summary.averageCitationSharePct,
+    missing_from_prompts: summary.missingPromptCount,
+    top_competitor: summary.topCompetitor,
+    engine_coverage: summary.engineCoverage,
+    eeat_gaps: summary.eeatSignals
+      .filter((s) => s.status !== "pass")
+      .map((s) => ({ label: s.label, status: s.status, fix: s.fix })),
+    agent_actions: summary.agentActions,
+    upgrade_url: "https://citeops.ai/upgrade",
+  };
+}
+
 async function pushToCloud(summary: ScanSummary, apiKey: string): Promise<void> {
   const baseUrl = process.env.CITEOPS_API_URL ?? "https://citeops.lovable.app";
   const res = await fetch(`${baseUrl}/api/public/scan-result`, {
@@ -37,7 +56,8 @@ export const scanCommand = addExamples(
         .description("Run the full CiteKit OSS scan flow across prompts, providers, diagnosis, and fixes")
         .option("--prompt <prompt>", "Override the generated prompt set with one prompt")
         .option("--prompt-count <count>", "Prompt count when generating prompts", "5")
-        .option("--cloud", "Push scan result to CiteOps Cloud for persistence (requires CITEOPS_API_KEY)"),
+        .option("--cloud", "Push scan result to CiteOps Cloud for persistence (requires CITEOPS_API_KEY)")
+        .option("--agent", "Output machine-readable agent_actions JSON for automated fix pipelines"),
     ),
   )
     .action(async (options) => {
@@ -66,6 +86,11 @@ export const scanCommand = addExamples(
         }
       }
 
+      if (options.agent) {
+        printJson(buildAgentOutput(summary));
+        return;
+      }
+
       if (options.json) {
         printJson(summary);
         return;
@@ -77,6 +102,7 @@ export const scanCommand = addExamples(
     'citekit scan --name "CiteOps" --domain citeops.ai --competitor "Profound" "Peec AI"',
     'citekit scan --name "CiteOps" --domain https://citeops.ai --prompt "best ai visibility platform" --json',
     'CITEOPS_API_KEY=sk-... citekit scan --name "CiteOps" --domain citeops.ai --cloud',
+    'citekit scan --name "CiteOps" --domain citeops.ai --agent',
   ],
   providerCommandNote(),
 );

@@ -5,10 +5,12 @@ import { benchmarkCommand } from "./commands/benchmark";
 import { doctorCommand } from "./commands/doctor";
 import { diagnoseCommand } from "./commands/diagnose";
 import { fixCommand } from "./commands/fix";
+import { generateCommand } from "./commands/generate";
 import { monitorCommand } from "./commands/monitor";
 import { probeCommand } from "./commands/probe";
 import { scanCommand } from "./commands/scan";
 import { scoreCommand } from "./commands/score";
+import { voiceCommand } from "./commands/voice";
 import { watchCommand } from "./commands/watch";
 import { buildExamplesHelp, formatCliError } from "./commands/shared";
 
@@ -39,7 +41,9 @@ export function buildProgram(): Command {
     .addCommand(probeCommand)
     .addCommand(diagnoseCommand)
     .addCommand(fixCommand)
-    .addCommand(scoreCommand);
+    .addCommand(scoreCommand)
+    .addCommand(generateCommand)
+    .addCommand(voiceCommand);
 }
 
 export async function runCli(argv = process.argv): Promise<void> {

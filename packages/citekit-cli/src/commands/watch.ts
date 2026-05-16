@@ -1,5 +1,6 @@
 import { Command } from "commander";
 import ora from "ora";
+import chalk from "chalk";
 import {
   addBrandOptions,
   addExamples,
@@ -10,6 +11,8 @@ import {
   type CliBrandInput,
   type ScanSummary,
 } from "./shared";
+
+const FREE_WATCH_LIMIT = 3;
 
 function diffScores(prev: ScanSummary, next: ScanSummary): string[] {
   const lines: string[] = [];
@@ -74,6 +77,19 @@ async function runWatchLoop(input: CliBrandInput, options: {
       prev = report;
     } catch (err) {
       spinner.fail(`[${formatTs()}] Scan #${iteration} failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
+
+    if (iteration >= FREE_WATCH_LIMIT) {
+      process.stdout.write(
+        "\n" +
+        chalk.yellow("━".repeat(44)) + "\n" +
+        `  ${chalk.bold("Free watch limit reached")} (${FREE_WATCH_LIMIT} runs).\n` +
+        "  Upgrade to CiteOps Cloud for continuous monitoring without limits,\n" +
+        "  automated fix PRs, and persistent citation history:\n" +
+        `  ${chalk.cyan("→ citeops.ai/upgrade")}\n` +
+        chalk.yellow("━".repeat(44)) + "\n",
+      );
+      break;
     }
 
     process.stdout.write(`\n  Next run in ${options.intervalMin} min. Ctrl+C to exit.\n\n`);
