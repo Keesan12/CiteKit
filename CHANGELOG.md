@@ -1,5 +1,28 @@
 # Changelog — CiteKit
 
+## v0.1.2 — 2026-05-16
+
+### Added
+- **`citekit voice` command** (`packages/citekit-cli/src/commands/voice.ts`)
+  - Audits speakable schema, FAQPage, HowTo, voice-optimized title/H1, Organization description length
+  - `speakable` markup is the least-known GEO signal — tells Google Assistant, Alexa, and AI voice interfaces which sections to read aloud
+  - Per-check predicted citation lift estimates + specific fix instructions
+- **`citekit generate-llms-txt` command** (`packages/citekit-cli/src/commands/generate.ts`)
+  - Crawls domain and generates a production-ready `llms.txt` and `llms-full.txt` scaffold
+  - `llms.txt` enables GPTBot, ClaudeBot, PerplexityBot, and Google-Extended to index your content
+  - `--output <path>` writes directly to file; `--json` for pipeline use
+- **`citekit scan --agent` flag**
+  - Outputs machine-readable `agent_actions` JSON with priority, action type, predicted lift, and `citekit_command` for each fix
+  - Schema: `citekit/agent/v1` — designed for AI agent pipelines, n8n, Zapier, CI/CD
+- **E-E-A-T & Entity Authority Signals in scan report**
+  - 7 deterministic checks: Organization schema, Wikidata/Wikipedia sameAs, author markup (Person schema), AggregateRating, content freshness (datePublished/dateModified), contactPoint, knowsAbout
+  - These are the signals AI models use to decide whether to *trust* a brand enough to cite it
+- **CiteOps Cloud upgrade gate**
+  - Every scan output ends with a conversion prompt showing gap count + `→ citeops.ai/upgrade`
+  - `citekit watch` exits after 3 free runs with a hard paywall message
+
+---
+
 ## v0.1.1 — 2026-05-15
 
 ### Added

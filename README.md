@@ -89,8 +89,11 @@ See [`examples/github-action-ci-scan.yml`](examples/github-action-ci-scan.yml) f
 | Command | What it does |
 |---|---|
 | `citekit doctor` | Inspect provider and integration readiness with masked evidence |
-| `citekit scan` | Full scan: probes + crawl signals + diagnosis + ranked fixes |
-| `citekit watch` | Continuous monitoring — polls on interval, diffs and alerts on changes |
+| `citekit scan` | Full scan: probes + crawl signals + E-E-A-T diagnosis + ranked fixes |
+| `citekit scan --agent` | Output machine-readable `agent_actions` JSON for AI agent pipelines |
+| `citekit watch` | Continuous monitoring — polls on interval, diffs and alerts on changes (3 free runs) |
+| `citekit voice` | Audit speakable schema, FAQPage, HowTo, and voice-assistant optimization signals |
+| `citekit generate-llms-txt` | Generate `llms.txt` for AI crawler access (GPTBot, ClaudeBot, PerplexityBot) |
 | `citekit monitor` | Measure share-of-voice visibility across prompt/provider panels |
 | `citekit probe` | Run one prompt against configured providers |
 | `citekit diagnose` | Explain why the brand is winning or losing citations |
