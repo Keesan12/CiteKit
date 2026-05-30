@@ -19,6 +19,13 @@ export * from "./schema/core";
 export * from "./score/score-engine";
 export * from "./simple-loop/oss-loop";
 export * from "./trace/types";
+export * from "./utils/fetch";
 export * from "./utils/hash";
 export * from "./utils/slug";
 export * from "./workflows";
+// Audit engine — extracted from CiteOps Sprints 1–4
+export * from "./types/index";
+export * from "./audit/index";
+export * from "./score/dimensions";
+export * from "./score/overall";
+export * from "./fixes/catalogue";
