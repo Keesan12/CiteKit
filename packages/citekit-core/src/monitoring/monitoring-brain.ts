@@ -280,7 +280,7 @@ export async function runCitationMonitoring(input: MonitoringRunInput): Promise<
           costUsd: run.costUsd,
           latencyMs: run.latencyMs,
           success: true,
-          sansaUsed: false,
+          aiAssisted: false,
           metadata: {
             promptId: id,
             intentType: prompt.intent_type,
@@ -316,7 +316,7 @@ export async function runCitationMonitoring(input: MonitoringRunInput): Promise<
           latencyMs: null,
           success: false,
           errorMessage: normalized.message,
-          sansaUsed: false,
+          aiAssisted: false,
           metadata: { promptId: id, intentType: prompt.intent_type },
         });
 

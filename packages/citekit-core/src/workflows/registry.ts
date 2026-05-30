@@ -14,7 +14,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: true,
     requires_human_approval_for_fix: false,
     trace_event_prefix: "llms_txt",
-    sansa_signals: ["llms_txt.lift"],
+    lift_signals: ["llms_txt.lift"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -25,7 +25,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: true,
     requires_human_approval_for_fix: false,
     trace_event_prefix: "crawler_access",
-    sansa_signals: ["crawler_access.bot_hits"],
+    lift_signals: ["crawler_access.bot_hits"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -36,7 +36,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: true,
     requires_human_approval_for_fix: false,
     trace_event_prefix: "schema",
-    sansa_signals: ["schema.rich_results", "schema.entity_lift"],
+    lift_signals: ["schema.rich_results", "schema.entity_lift"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -47,7 +47,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: true,
     requires_human_approval_for_fix: false,
     trace_event_prefix: "ssr",
-    sansa_signals: ["ssr.parity_lift"],
+    lift_signals: ["ssr.parity_lift"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -58,7 +58,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: true,
     requires_human_approval_for_fix: false,
     trace_event_prefix: "answer_first",
-    sansa_signals: ["answer_first.citation_lift"],
+    lift_signals: ["answer_first.citation_lift"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -69,7 +69,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: true,
     requires_human_approval_for_fix: false,
     trace_event_prefix: "question_h2",
-    sansa_signals: ["question_h2.rank_delta"],
+    lift_signals: ["question_h2.rank_delta"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -80,7 +80,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: false,
     requires_human_approval_for_fix: true,
     trace_event_prefix: "comparison",
-    sansa_signals: ["comparison.sov_shift"],
+    lift_signals: ["comparison.sov_shift"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -91,7 +91,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: true,
     requires_human_approval_for_fix: false,
     trace_event_prefix: "freshness",
-    sansa_signals: ["freshness.recrawl"],
+    lift_signals: ["freshness.recrawl"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -102,7 +102,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: false,
     requires_human_approval_for_fix: true,
     trace_event_prefix: "original_data",
-    sansa_signals: ["original_data.long_horizon"],
+    lift_signals: ["original_data.long_horizon"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -113,7 +113,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: false,
     requires_human_approval_for_fix: true,
     trace_event_prefix: "wikidata",
-    sansa_signals: ["wikidata.grounding_lift"],
+    lift_signals: ["wikidata.grounding_lift"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -124,7 +124,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: true,
     requires_human_approval_for_fix: false,
     trace_event_prefix: "author",
-    sansa_signals: ["author.entity_recognized"],
+    lift_signals: ["author.entity_recognized"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -135,7 +135,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: false,
     requires_human_approval_for_fix: true,
     trace_event_prefix: "forum_seed",
-    sansa_signals: ["forum_seed.attribution"],
+    lift_signals: ["forum_seed.attribution"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -146,7 +146,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: false,
     requires_human_approval_for_fix: true,
     trace_event_prefix: "audio_video",
-    sansa_signals: ["audio_video.transcript_citations"],
+    lift_signals: ["audio_video.transcript_citations"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -157,7 +157,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: true,
     requires_human_approval_for_fix: false,
     trace_event_prefix: "semantic_html",
-    sansa_signals: ["semantic_html.chunk_quality"],
+    lift_signals: ["semantic_html.chunk_quality"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -168,7 +168,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: true,
     requires_human_approval_for_fix: false,
     trace_event_prefix: "sitemap",
-    sansa_signals: ["sitemap.crawl_frequency"],
+    lift_signals: ["sitemap.crawl_frequency"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -179,7 +179,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: true,
     requires_human_approval_for_fix: false,
     trace_event_prefix: "cwv",
-    sansa_signals: ["cwv.metric_delta"],
+    lift_signals: ["cwv.metric_delta"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -190,7 +190,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: true,
     requires_human_approval_for_fix: false,
     trace_event_prefix: "url_hygiene",
-    sansa_signals: ["url_hygiene.consolidation"],
+    lift_signals: ["url_hygiene.consolidation"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -201,7 +201,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: false,
     requires_human_approval_for_fix: false,
     trace_event_prefix: "citation_monitor",
-    sansa_signals: ["citation_monitor.sov_trend", "citation_monitor.attribution"],
+    lift_signals: ["citation_monitor.sov_trend", "citation_monitor.attribution"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -212,7 +212,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: false,
     requires_human_approval_for_fix: true,
     trace_event_prefix: "diversification",
-    sansa_signals: ["diversification.diversity_score"],
+    lift_signals: ["diversification.diversity_score"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
   {
@@ -223,7 +223,7 @@ const WORKFLOW_REGISTRY_SOURCE = [
     oss_safe: false,
     requires_human_approval_for_fix: true,
     trace_event_prefix: "scoreboard",
-    sansa_signals: ["scoreboard.recursive_authority", "scoreboard.backlink_growth"],
+    lift_signals: ["scoreboard.recursive_authority", "scoreboard.backlink_growth"],
     stages: [...WORKFLOW_STAGE_NAMES],
   },
 ] as const satisfies readonly WorkflowMeta[];

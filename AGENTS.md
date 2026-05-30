@@ -26,4 +26,4 @@
 
 - `packages/citekit-core` and `packages/citekit-cli` must not import private CiteOps modules.
 - Run `npm run boundary:public` before pushing.
-- If a feature requires hosted scheduling, dashboards, billing, PR/CMS automation, Sansa, or TraceIntelligence, document it as a CiteOps Cloud upgrade path instead of adding private code here.
+- If a feature requires hosted scheduling, dashboards, billing, or PR/CMS automation, document it as a CiteOps Cloud upgrade path instead of adding private code here.

@@ -1,7 +1,6 @@
 import type { BenchmarkTarget } from "./foundation-benchmark";
 
 export const FOUNDER_SITES: readonly BenchmarkTarget[] = [
-  { name: "MartinLoop", domain: "martinloop.com", segment: "founder", founderOwned: true },
   { name: "CFRI", domain: "cfri.io", segment: "founder", founderOwned: true },
   { name: "Torram", domain: "torram.xyz", segment: "founder", founderOwned: true },
   { name: "Siglieri", domain: "siglieri.com", segment: "founder", founderOwned: true },

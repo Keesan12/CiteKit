@@ -1,7 +1,7 @@
 import type { BrandRecord, CompetitorRecord, ProbeEngineName, PromptIntent, WorkflowId } from "../db/types";
 import type { ProbeProvider, ProbeRunResult } from "../probe/types";
 import type { PromptDraft, VisibilityScore } from "../schema/core";
-import type { MartinLoopTracePayload } from "../trace/types";
+import type { TracePayload } from "../trace/types";
 
 export type MonitoringResultStatus = "success" | "failed";
 
@@ -33,7 +33,7 @@ export interface CitationMonitoringSuccess {
   run: ProbeRunResult;
   score: VisibilityScore;
   routedWorkflows: RoutedWorkflow[];
-  trace: Required<MartinLoopTracePayload>;
+  trace: Required<TracePayload>;
 }
 
 export interface CitationMonitoringFailure {
@@ -45,7 +45,7 @@ export interface CitationMonitoringFailure {
   errorName: string;
   errorMessage: string;
   routedWorkflows: RoutedWorkflow[];
-  trace: Required<MartinLoopTracePayload>;
+  trace: Required<TracePayload>;
 }
 
 export type CitationMonitoringResult = CitationMonitoringSuccess | CitationMonitoringFailure;
@@ -89,7 +89,7 @@ export interface CitationMonitoringReport {
   snapshot: MonitoringSovSnapshot;
   results: CitationMonitoringResult[];
   routes: RoutedWorkflow[];
-  traces: Required<MartinLoopTracePayload>[];
+  traces: Required<TracePayload>[];
 }
 
 export interface MonitoringScheduleInput {

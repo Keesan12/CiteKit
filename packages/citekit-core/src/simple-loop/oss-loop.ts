@@ -3,7 +3,7 @@ export interface OssLoopOptions {
   maxRetries?: number;
 }
 
-/** MIT-licensed OSS retry helper. Intentionally simpler than MartinLoop governance. */
+/** Cost-capped retry helper for OSS CLI workflows. */
 export class OssLoop {
   private totalCostUsd = 0;
   private readonly maxCostUsd: number;

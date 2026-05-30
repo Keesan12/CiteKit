@@ -50,7 +50,7 @@ describe("proof card generation", () => {
     );
     expect(JSON.stringify(card)).not.toContain("Confidential draft content");
     expect(card.affectedPrompts[0]?.promptHash).toBe(sha256("best b2b docs software"));
-    expect(card.sansaObservation.promptHashes).toEqual([
+    expect(card.aiObservation.promptHashes).toEqual([
       sha256("best b2b docs software"),
       sha256("docs software with security faq"),
     ]);

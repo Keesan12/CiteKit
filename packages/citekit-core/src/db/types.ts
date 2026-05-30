@@ -145,7 +145,7 @@ export interface ProbeRunRecord {
   sentiment: "positive" | "neutral" | "negative" | null;
   cost_usd: number;
   latency_ms: number | null;
-  martin_loop_trace_id: string | null;
+  trace_id: string | null;
   created_at: string;
 }
 
@@ -189,9 +189,9 @@ export interface DiagnosisRecord {
   explanation: string | null;
   competitor_advantage: string | null;
   recommended_fix_type: FixType | null;
-  sansa_predicted_lift: number | null;
-  sansa_confidence: number | null;
-  martin_loop_trace_id: string | null;
+  predicted_lift: number | null;
+  confidence: number | null;
+  trace_id: string | null;
   trace_metadata: Record<string, unknown>;
   created_at: string;
 }
@@ -208,7 +208,7 @@ export interface FixRecord {
   github_pr_url: string | null;
   cms_draft_url: string | null;
   deployed_at: string | null;
-  martin_loop_trace_id: string | null;
+  trace_id: string | null;
   trace_metadata: Record<string, unknown>;
   estimated_citation_lift: number | null;
   attribution_confidence: number | null;
@@ -226,8 +226,8 @@ export interface ExperimentRecord {
   after_probe_run_ids: string[];
   citation_delta: number | null;
   result: "won" | "neutral" | "lost" | null;
-  sansa_predicted_lift: number | null;
-  sansa_was_correct: boolean | null;
+  predicted_lift: number | null;
+  was_correct: boolean | null;
   trace_metadata: Record<string, unknown>;
   measured_citation_lift: number | null;
   attribution_confidence: number | null;
@@ -236,7 +236,7 @@ export interface ExperimentRecord {
   created_at: string;
 }
 
-export interface MartinLoopTraceRecord {
+export interface TraceRecord {
   id: string;
   agent_name: string;
   brand_id: string | null;
@@ -250,7 +250,7 @@ export interface MartinLoopTraceRecord {
   latency_ms: number | null;
   success: boolean;
   error_message: string | null;
-  sansa_used: boolean;
+  ai_used: boolean;
   metadata: Record<string, unknown>;
   created_at: string;
 }

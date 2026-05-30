@@ -7,7 +7,7 @@ CiteKit is the public OSS repository for the free AI visibility toolkit. It shou
 ## Boundary
 
 - Public: `packages/citekit-core`, `packages/citekit-cli`, docs, examples, tests, and public boundary tooling.
-- Private: CiteOps Hosted app/cloud, customer dashboards, billing, Sansa private runtime, TraceIntelligence private runtime, credentials, customer data, and internal handoff ZIPs.
+- Private: CiteOps Hosted app/cloud, customer dashboards, billing, hosted runtime services, credentials, customer data, and internal handoff ZIPs.
 
 ## Verification
 

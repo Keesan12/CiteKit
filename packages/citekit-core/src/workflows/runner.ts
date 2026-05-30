@@ -69,7 +69,7 @@ function buildTraceMetadata(
   return {
     trace_event_prefix: workflow.trace_event_prefix,
     trace_event: `${workflow.trace_event_prefix}.${stage}`,
-    sansa_signals: workflow.sansa_signals,
+    lift_signals: workflow.lift_signals,
     ...(baseMetadata ?? {}),
   };
 }
@@ -80,7 +80,7 @@ function buildRunTraceMetadata(
 ): Record<string, unknown> {
   return {
     trace_event_prefix: workflow.trace_event_prefix,
-    sansa_signals: workflow.sansa_signals,
+    lift_signals: workflow.lift_signals,
     ...(baseMetadata ?? {}),
   };
 }
