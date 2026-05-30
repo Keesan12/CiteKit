@@ -13,7 +13,7 @@ CiteKit is the OSS hook. It must remain safe to publish publicly.
 ## Not Allowed
 
 - CiteOps Hosted app/cloud source
-- Private MartinLoop/Sansa/TraceIntelligence runtime code
+- Private CiteOps hosted runtime code
 - Billing, dashboards, customer persistence, or private deployment configs
 - Provider credentials or `.env` files
 - Customer content, raw AI responses from customer workspaces, or internal handoff ZIPs

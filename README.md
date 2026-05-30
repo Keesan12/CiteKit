@@ -140,7 +140,7 @@ CiteOps Cloud is for teams that want the autonomous loop:
 - Website-platform-aware onboarding for WordPress, WooCommerce, Shopify, Webflow, Wix, Squarespace, GoDaddy, Hostinger, Weebly/Square, custom code, and unknown/static sites.
 - Approval-safe GitHub PRs and CMS drafts.
 - Public proof cards and scoreboard pages.
-- TraceIntelligence audit trails and hashed-only Sansa learning.
+- Audit trails and outcome learning.
 
 Start with CiteKit. Upgrade when you need the agent to keep watching, fixing, verifying, and proving outcomes.
 
@@ -157,7 +157,7 @@ npm run boundary:public
 
 ## Public Boundary
 
-This repo must stay OSS-safe. It must not import private CiteOps Hosted app/cloud/runtime code, credentials, customer data, internal specs, or private Sansa/TraceIntelligence implementations.
+This repo must stay OSS-safe. It must not import private CiteOps Hosted app/cloud/runtime code, credentials, customer data, or internal specs.
 
 Run this before every release:
 

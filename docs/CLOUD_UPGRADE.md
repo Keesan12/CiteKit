@@ -24,5 +24,4 @@ CiteKit is designed to create an immediate local value moment:
 - Human approval gates.
 - Verification loops.
 - Public proof cards and scoreboards.
-- TraceIntelligence audit trails.
-- Hashed-only Sansa learning.
+- Audit trails and outcome learning.

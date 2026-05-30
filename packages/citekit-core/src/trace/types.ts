@@ -1,4 +1,4 @@
-export interface MartinLoopTracePayload {
+export interface TracePayload {
   agentName: string;
   brandId?: string | null;
   workflowRunId?: string | null;
@@ -11,11 +11,11 @@ export interface MartinLoopTracePayload {
   latencyMs?: number | null;
   success?: boolean;
   errorMessage?: string | null;
-  sansaUsed?: boolean;
+  aiAssisted?: boolean;
   metadata?: Record<string, unknown>;
 }
 
-export function buildTracePayload(payload: MartinLoopTracePayload): Required<MartinLoopTracePayload> {
+export function buildTracePayload(payload: TracePayload): Required<TracePayload> {
   return {
     agentName: payload.agentName,
     brandId: payload.brandId ?? null,
@@ -29,7 +29,7 @@ export function buildTracePayload(payload: MartinLoopTracePayload): Required<Mar
     latencyMs: payload.latencyMs ?? null,
     success: payload.success ?? true,
     errorMessage: payload.errorMessage ?? null,
-    sansaUsed: payload.sansaUsed ?? false,
+    aiAssisted: payload.aiAssisted ?? false,
     metadata: payload.metadata ?? {},
   };
 }

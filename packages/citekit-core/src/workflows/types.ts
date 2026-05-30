@@ -52,7 +52,7 @@ export const WorkflowMetaSchema = z.object({
   oss_safe: z.boolean(),
   requires_human_approval_for_fix: z.boolean(),
   trace_event_prefix: z.string().min(1),
-  sansa_signals: z.array(z.string().min(1)).default([]),
+  lift_signals: z.array(z.string().min(1)).default([]),
   stages: z.array(WorkflowStageSchema).min(1),
 });
 export type WorkflowMeta = z.infer<typeof WorkflowMetaSchema>;

@@ -3,7 +3,6 @@ import { auditRobots } from "./robots";
 import { auditLlmsTxt } from "./llms-txt";
 import { auditSchema, parseSchemaBlocks } from "./schema";
 import { auditContent } from "./content";
-import { auditInfrastructure } from "./infrastructure";
 import { auditMeta } from "./meta";
 import { auditSpaGap } from "./spa-gap";
 import { computeScore, gradeFromScore } from "../score/overall";

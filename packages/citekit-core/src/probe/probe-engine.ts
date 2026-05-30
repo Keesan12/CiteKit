@@ -68,7 +68,7 @@ export async function runProbeBatch(
         costUsd: result.costUsd,
         latencyMs: result.latencyMs,
         success: true,
-        sansaUsed: false,
+        aiAssisted: false,
       }),
     );
   }

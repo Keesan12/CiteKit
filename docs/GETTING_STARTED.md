@@ -32,4 +32,4 @@ Provider-backed scans require configured provider keys.
 
 ## 5. Upgrade When You Need The Loop
 
-CiteKit is a local toolkit. CiteOps Cloud is the autonomous operator for scheduled monitoring, platform-aware PR/CMS drafts, proof cards, TraceIntelligence, and verification loops.
+CiteKit is a local toolkit. CiteOps Cloud is the autonomous operator for scheduled monitoring, platform-aware PR/CMS drafts, proof cards, audit trails, and verification loops.

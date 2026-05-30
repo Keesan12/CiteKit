@@ -82,7 +82,7 @@ const report: CitationMonitoringReport = {
         latencyMs: 10,
         success: true,
         errorMessage: null,
-        sansaUsed: false,
+        aiAssisted: false,
         metadata: {},
       },
     },

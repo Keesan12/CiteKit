@@ -1,12 +1,12 @@
 import type { BrandRecord, CompetitorRecord, ProbeEngineName, PromptRecord } from "../db/types";
 import type { CitationExtraction } from "../schema/core";
-import type { MartinLoopTracePayload } from "../trace/types";
+import type { TracePayload } from "../trace/types";
 
 export interface ProbeExecutionContext {
   brand: Pick<BrandRecord, "id" | "name" | "domain" | "category" | "description" | "target_persona">;
   prompt: Pick<PromptRecord, "id" | "prompt_text" | "intent_type">;
   competitors?: Pick<CompetitorRecord, "name" | "domain">[];
-  trace?: Partial<MartinLoopTracePayload>;
+  trace?: Partial<TracePayload>;
 }
 
 export interface ProviderAnswer {

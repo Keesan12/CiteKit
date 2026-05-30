@@ -196,7 +196,7 @@ export interface PublicProofCard {
     workflowId: WorkflowId | null;
     contentHash: string;
   };
-  sansaObservation: {
+  aiObservation: {
     experimentId: string;
     workflowRunId: string | null;
     contentHash: string;
@@ -305,7 +305,7 @@ export function buildPublicProofCard(input: ProofCardInput): PublicProofCard {
       workflowId: (parsed.fix.workflowId ?? null) as WorkflowId | null,
       contentHash: resolveFixContentHash(parsed.fix),
     },
-    sansaObservation: {
+    aiObservation: {
       experimentId: parsed.experimentId,
       workflowRunId: parsed.workflowRunId ?? null,
       contentHash: resolveFixContentHash(parsed.fix),
