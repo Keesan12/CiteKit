@@ -1,7 +1,5 @@
 # CiteKit
 
-[![npm](https://img.shields.io/npm/v/citekit-cli?label=citekit-cli&color=2563eb)](https://www.npmjs.com/package/citekit-cli)
-[![npm](https://img.shields.io/npm/v/citekit-core?label=citekit-core&color=2563eb)](https://www.npmjs.com/package/citekit-core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-53%20passing-brightgreen)](packages/citekit-core)
 
