@@ -49,7 +49,7 @@ export async function crawlSite(domain: string, maxPages = 10): Promise<CrawlRes
       timeout: { request: 30_000 },
       throwHttpErrors: false,
       headers: {
-        "user-agent": "CiteOps crawler (+https://citeops.ai)",
+        "user-agent": "CiteOps crawler (+https://citeopscloud.com)",
       },
     });
 
@@ -96,7 +96,7 @@ export async function crawlSite(domain: string, maxPages = 10): Promise<CrawlRes
   const llmsTxtResponse = await got(`${baseUrl.replace(/\/$/, "")}/llms.txt`, {
     timeout: { request: 5_000 },
     throwHttpErrors: false,
-    headers: { "user-agent": "CiteOps crawler (+https://citeops.ai)" },
+    headers: { "user-agent": "CiteOps crawler (+https://citeopscloud.com)" },
   });
 
   return {

@@ -42,8 +42,8 @@ export const scoreCommand = addExamples(
     );
   }),
   [
-    'citekit score --name "CiteOps" --domain citeops.ai --competitor "Profound"',
-    'citekit score --name "CiteOps" --domain citeops.ai --prompt "best ai visibility platform" --json',
+    'citekit score --name "CiteOps" --domain citeopscloud.com --competitor "Profound"',
+    'citekit score --name "CiteOps" --domain citeopscloud.com --prompt "best ai visibility platform" --json',
   ],
   providerCommandNote(),
 );

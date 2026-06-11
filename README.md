@@ -1,7 +1,7 @@
 # CiteKit
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-53%20passing-brightgreen)](packages/citekit-core)
+[![Tests](https://img.shields.io/badge/tests-98%20passing-brightgreen)](packages/citekit-core)
 
 **Open-source CLI to find out why ChatGPT, Claude, Perplexity, and Gemini aren't recommending your brand — and what to fix first.**
 

@@ -202,7 +202,7 @@ function renderVoiceReport(report: VoiceReport): string {
       chalk.yellow("━".repeat(44)),
       `  ${chalk.bold(`Estimated voice citation lift if all gaps fixed: +${totalLift} points`)}`,
       "  Run citekit scan to get ranked fix candidates:",
-      `  ${chalk.cyan("→ citeops.ai/upgrade")} for automated voice schema fixes`,
+      `  ${chalk.cyan("→ citeopscloud.com/pricing")} for automated voice schema fixes`,
       chalk.yellow("━".repeat(44)),
     );
   }
@@ -229,7 +229,7 @@ export const voiceCommand = addExamples(
       const res = await got(`https://${domain}`, {
         timeout: { request: 15_000 },
         throwHttpErrors: false,
-        headers: { "user-agent": "CiteOps voice-audit (+https://citeops.ai)" },
+        headers: { "user-agent": "CiteOps voice-audit (+https://citeopscloud.com)" },
       });
       if (res.statusCode >= 400) {
         throw new Error(`HTTP ${res.statusCode}`);

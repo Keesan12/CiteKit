@@ -37,8 +37,8 @@ export const probeCommand = addExamples(
     }
   }),
   [
-    'citekit probe --name "CiteOps" --domain citeops.ai --prompt "best ai visibility platform"',
-    'citekit probe --name "CiteOps" --domain citeops.ai --competitor "Profound" --json',
+    'citekit probe --name "CiteOps" --domain citeopscloud.com --prompt "best ai visibility platform"',
+    'citekit probe --name "CiteOps" --domain citeopscloud.com --competitor "Profound" --json',
   ],
   providerCommandNote(),
 );

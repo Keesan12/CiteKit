@@ -35,8 +35,8 @@ export const fixCommand = addExamples(
     }
   }),
   [
-    'citekit fix --name "CiteOps" --domain citeops.ai --competitor "Profound"',
-    'citekit fix --name "CiteOps" --domain citeops.ai --prompt "best ai visibility platform" --json',
+    'citekit fix --name "CiteOps" --domain citeopscloud.com --competitor "Profound"',
+    'citekit fix --name "CiteOps" --domain citeopscloud.com --prompt "best ai visibility platform" --json',
   ],
   providerCommandNote(),
 );

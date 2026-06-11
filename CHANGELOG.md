@@ -18,7 +18,7 @@
   - 7 deterministic checks: Organization schema, Wikidata/Wikipedia sameAs, author markup (Person schema), AggregateRating, content freshness (datePublished/dateModified), contactPoint, knowsAbout
   - These are the signals AI models use to decide whether to *trust* a brand enough to cite it
 - **CiteOps Cloud upgrade gate**
-  - Every scan output ends with a conversion prompt showing gap count + `→ citeops.ai/upgrade`
+  - Every scan output ends with a conversion prompt showing gap count + `→ citeopscloud.com/pricing`
   - `citekit watch` exits after 3 free runs with a hard paywall message
 
 ---

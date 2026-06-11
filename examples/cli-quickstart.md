@@ -4,8 +4,8 @@
 citekit doctor
 citekit doctor --json
 citekit benchmark --preset founders --max-pages 3 --json
-citekit monitor --name "CiteOps" --domain citeops.ai --prompt-count 8
-citekit scan --name "CiteOps" --domain citeops.ai --competitor "Profound" "Peec AI"
+citekit monitor --name "CiteOps" --domain citeopscloud.com --prompt-count 8
+citekit scan --name "CiteOps" --domain citeopscloud.com --competitor "Profound" "Peec AI"
 ```
 
 For live provider probes, set one or more provider keys:

@@ -86,7 +86,7 @@ async function runWatchLoop(input: CliBrandInput, options: {
         `  ${chalk.bold("Free watch limit reached")} (${FREE_WATCH_LIMIT} runs).\n` +
         "  Upgrade to CiteOps Cloud for continuous monitoring without limits,\n" +
         "  automated fix PRs, and persistent citation history:\n" +
-        `  ${chalk.cyan("→ citeops.ai/upgrade")}\n` +
+        `  ${chalk.cyan("→ citeopscloud.com/pricing")}\n` +
         chalk.yellow("━".repeat(44)) + "\n",
       );
       break;
@@ -120,8 +120,8 @@ export const watchCommand = addExamples(
       await runWatchLoop(input, { intervalMin, promptCount });
     }),
   [
-    'citekit watch --name "CiteOps" --domain citeops.ai --interval 30',
-    'citekit watch --name "CiteOps" --domain citeops.ai --competitor "Profound" --interval 60 --prompt-count 8',
+    'citekit watch --name "CiteOps" --domain citeopscloud.com --interval 30',
+    'citekit watch --name "CiteOps" --domain citeopscloud.com --competitor "Profound" --interval 60 --prompt-count 8',
   ],
   providerCommandNote(),
 );

@@ -103,7 +103,7 @@ function toAbsoluteUrl(baseUrl: string, href: string): string | null {
   }
 }
 
-async function fetchHtml(url: string, userAgent = "CiteOps benchmark (+https://citeops.ai)"): Promise<FetchResult | null> {
+async function fetchHtml(url: string, userAgent = "CiteOps benchmark (+https://citeopscloud.com)"): Promise<FetchResult | null> {
   try {
     const response = await got(url, {
       timeout: { request: 12_000 },
@@ -240,7 +240,7 @@ async function fetchText(url: string): Promise<string | null> {
       timeout: { request: 8_000 },
       throwHttpErrors: false,
       followRedirect: true,
-      headers: { "user-agent": "CiteOps benchmark (+https://citeops.ai)" },
+      headers: { "user-agent": "CiteOps benchmark (+https://citeopscloud.com)" },
     });
     if (response.statusCode >= 400 || !response.body.trim()) {
       return null;

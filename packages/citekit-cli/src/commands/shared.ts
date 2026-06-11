@@ -584,7 +584,7 @@ export function renderUpgradePrompt(gapCount: number): string {
     bar,
     `  ${chalk.bold(`${gapCount} citation ${noun} found.`)} Left unfixed, competitors keep the citations.`,
     "  Auto-fix with GitHub PRs, continuous monitoring, and proof cards:",
-    `  ${chalk.cyan("→ citeops.ai/upgrade")}`,
+    `  ${chalk.cyan("→ citeopscloud.com/pricing")}`,
     bar,
     "",
   ].join("\n");
