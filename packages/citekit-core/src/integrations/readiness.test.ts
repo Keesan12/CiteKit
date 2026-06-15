@@ -3,6 +3,7 @@ import { ZodError } from "zod";
 
 import type { ProbeContext } from "./readiness";
 import { checkIntegrationReadiness } from "./readiness";
+import { testSecrets } from "../test-support/secret-fixtures";
 
 function makeJwt(role: "anon" | "service_role"): string {
   const header = Buffer.from(JSON.stringify({ alg: "HS256", typ: "JWT" })).toString("base64url");
@@ -63,8 +64,8 @@ describe("integration readiness", () => {
         SUPABASE_URL: "https://project.supabase.co",
         SUPABASE_SERVICE_ROLE_KEY: makeJwt("service_role"),
         SUPABASE_ANON_KEY: makeJwt("anon"),
-        GITHUB_TOKEN: "github_token_fixture",
-        STRIPE_SECRET_KEY: "stripe_live_secret_fixture",
+        GITHUB_TOKEN: testSecrets.githubToken,
+        STRIPE_SECRET_KEY: testSecrets.stripeLiveSecretKey,
         WEBFLOW_API_TOKEN: "wf_1234567890abcdefghijklmnopqrstuvwxyz",
         WEBFLOW_SITE_ID: "site_123456",
         WORDPRESS_BASE_URL: "https://example.com",
@@ -72,12 +73,12 @@ describe("integration readiness", () => {
         WORDPRESS_APPLICATION_PASSWORD: "abcd efgh ijkl mnop qrst uvwx",
         SENTRY_DSN: "https://public@example.ingest.sentry.io/12345",
         POSTHOG_HOST: "https://us.i.posthog.com",
-        POSTHOG_API_KEY: "phx_1234567890abcdefghijklmnopqrstuvwxyz",
-        OPENAI_API_KEY: "openai_api_key_fixture",
-        ANTHROPIC_API_KEY: "anthropic_api_key_fixture",
-        GOOGLE_API_KEY: "google_api_key_fixture",
-        PERPLEXITY_API_KEY: "perplexity_api_key_fixture",
-        OPENROUTER_API_KEY: "openrouter_api_key_fixture",
+        POSTHOG_API_KEY: testSecrets.posthogApiKey,
+        OPENAI_API_KEY: testSecrets.openAiKey,
+        ANTHROPIC_API_KEY: testSecrets.anthropicKey,
+        GOOGLE_API_KEY: testSecrets.googleKey,
+        PERPLEXITY_API_KEY: testSecrets.perplexityKey,
+        OPENROUTER_API_KEY: testSecrets.openRouterKey,
       },
     });
 
@@ -94,7 +95,7 @@ describe("integration readiness", () => {
   it("upgrades to ready when a caller-supplied probe passes", async () => {
     const report = await checkIntegrationReadiness({
       env: {
-        OPENAI_API_KEY: "openai_api_key_fixture",
+        OPENAI_API_KEY: testSecrets.openAiKey,
       },
       probes: {
         openai: ({ config }: ProbeContext<{ apiKey: string | undefined; baseUrl: string | undefined; model: string | undefined }>) => ({
@@ -116,7 +117,7 @@ describe("integration readiness", () => {
       env: {
         SUPABASE_URL: "https://project.supabase.co",
         SUPABASE_ANON_KEY: makeJwt("anon"),
-        STRIPE_SECRET_KEY: "rk_test_fixture",
+        STRIPE_SECRET_KEY: testSecrets.stripeTestSecretKey,
       },
     });
 
@@ -133,9 +134,9 @@ describe("integration readiness", () => {
   it("never emits raw secrets anywhere in the report payload", async () => {
     const secrets = {
       SUPABASE_SERVICE_ROLE_KEY: makeJwt("service_role"),
-      GITHUB_TOKEN: "github_token_fixture_secret",
-      STRIPE_SECRET_KEY: "stripe_live_secret_fixture_secret",
-      OPENAI_API_KEY: "openai_secret_fixture",
+      GITHUB_TOKEN: testSecrets.githubSecretToken,
+      STRIPE_SECRET_KEY: testSecrets.stripeLiveSecretKey,
+      OPENAI_API_KEY: testSecrets.openAiSecretKey,
     };
 
     const report = await checkIntegrationReadiness({

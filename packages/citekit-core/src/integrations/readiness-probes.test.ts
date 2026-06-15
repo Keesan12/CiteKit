@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 
 import { createReadOnlyIntegrationProbes } from "./readiness-probes";
+import { testSecrets } from "../test-support/secret-fixtures";
 
 function makeFetch(response: { ok: boolean; status: number; body: string }) {
   return vi.fn(async () => ({
@@ -22,7 +23,7 @@ describe("read-only integration probes", () => {
     const result = await probes.openai({
       integration: "openai",
       config: {
-        apiKey: "openai_redacted_key",
+        apiKey: testSecrets.openAiSecretKey,
         baseUrl: undefined,
         model: undefined,
       },
@@ -35,7 +36,7 @@ describe("read-only integration probes", () => {
       expect.objectContaining({
         method: "GET",
         headers: expect.objectContaining({
-          Authorization: "Bearer openai_redacted_key",
+          Authorization: `Bearer ${testSecrets.openAiSecretKey}`,
         }),
       }),
     );
@@ -45,7 +46,7 @@ describe("read-only integration probes", () => {
       statusCode: 200,
       target: "https://api.openai.com/v1/models",
     });
-    expect(JSON.stringify(result.evidence)).not.toContain("openai_redacted_key");
+    expect(JSON.stringify(result.evidence)).not.toContain(testSecrets.openAiSecretKey);
   });
 
   it("returns structured blockers when a provider-specific live probe cannot safely run", async () => {
@@ -59,7 +60,7 @@ describe("read-only integration probes", () => {
         token: undefined,
         appId: "12345",
         installationId: "67890",
-        privateKey: "-----BEGIN PRIVATE KEY-----\nabc\n-----END PRIVATE KEY-----",
+        privateKey: testSecrets.pemPrivateKey,
         owner: "citeops",
         baseUrl: undefined,
       },
@@ -83,7 +84,7 @@ describe("read-only integration probes", () => {
     const fetchImpl = makeFetch({
       ok: false,
       status: 401,
-      body: '{"error":"invalid api key posthog_redacted_key"}',
+      body: `{"error":"invalid api key ${testSecrets.posthogErrorKey}"}`,
     });
     const probes = createReadOnlyIntegrationProbes({ fetchImpl: fetchImpl as unknown as typeof fetch });
 
@@ -91,7 +92,7 @@ describe("read-only integration probes", () => {
       integration: "posthog",
       config: {
         host: "https://us.i.posthog.com",
-        apiKey: "posthog_redacted_key",
+        apiKey: testSecrets.posthogErrorKey,
       },
       env: {},
     });
@@ -101,7 +102,7 @@ describe("read-only integration probes", () => {
       throw new Error("Expected a blocked probe result for a 401 PostHog response.");
     }
     expect(result.blockers[0]).toContain("rejected the supplied credentials");
-    expect(JSON.stringify(result.evidence)).not.toContain("posthog_redacted_key");
+    expect(JSON.stringify(result.evidence)).not.toContain(testSecrets.posthogErrorKey);
     expect(result.evidence?.[0]).toMatchObject({
       kind: "http",
       result: "blocked",

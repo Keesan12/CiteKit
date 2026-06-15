@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { classifyDeployVerification, sanitizeLogSummary } from "./verification";
+import { testSecrets } from "../test-support/secret-fixtures";
 
 describe("deploy verification helpers", () => {
   it("classifies a successful verification and sanitizes evidence", () => {
@@ -20,14 +21,14 @@ describe("deploy verification helpers", () => {
         provider: "vercel",
         deploymentId: "dep_123",
         url: "https://logs.example.com/build#private",
-        logSummary: "Authorization: Bearer ghp_redacted_token value hidden",
+        logSummary: `Authorization: Bearer ${testSecrets.githubSecretToken} value hidden`,
       },
     });
 
     expect(result.status).toBe("pass");
     expect(result.evidence.urls).toEqual(["https://example.com/deploy", "https://logs.example.com/build"]);
     expect(result.evidence.logSummary).toContain("[REDACTED]");
-    expect(result.evidence.logSummary).not.toContain("ghp_redacted_token");
+    expect(result.evidence.logSummary).not.toContain(testSecrets.githubSecretToken);
   });
 
   it("classifies pending and failed states deterministically", () => {
