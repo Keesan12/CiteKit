@@ -34,7 +34,6 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.95.1",
     "@google/generative-ai": "^0.24.1",
-    "@supabase/supabase-js": "^2.56.0",
     "cheerio": "^1.0.0",
     "got": "^14.0.0",
     "openai": "^6.37.0",

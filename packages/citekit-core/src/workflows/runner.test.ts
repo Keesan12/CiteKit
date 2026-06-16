@@ -12,7 +12,7 @@ describe("workflow runner", () => {
 
     const result = await runner.run({
       workflowId: "WF-01",
-      input: { domain: "citeops.ai" },
+      input: { domain: "citeopscloud.com" },
       handlers: defineWorkflowStageHandlers<
         { domain: string },
         {
@@ -54,8 +54,8 @@ describe("workflow runner", () => {
     });
     expect(observed).toEqual([
       "probe",
-      "diagnose:https://citeops.ai/llms.txt",
-      "fix:checked https://citeops.ai/llms.txt",
+      "diagnose:https://citeopscloud.com/llms.txt",
+      "fix:checked https://citeopscloud.com/llms.txt",
       "verify:generated",
     ]);
   });
@@ -65,7 +65,7 @@ describe("workflow runner", () => {
 
     const result = await runner.run({
       workflowId: "WF-03",
-      input: { url: "https://citeops.ai" },
+      input: { url: "https://citeopscloud.com" },
       handlers: defineWorkflowStageHandlers<
         { url: string },
         {
@@ -115,7 +115,7 @@ describe("workflow runner", () => {
     await expect(
       runner.run({
         workflowId: "WF-01",
-        input: { domain: "citeops.ai" },
+        input: { domain: "citeopscloud.com" },
         handlers: defineWorkflowStageHandlers<{ domain: string }, { probe: { url: string } }>({
           probe: ({ input }) => ({ url: `https://${input.domain}` }),
         }),

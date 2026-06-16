@@ -14,7 +14,7 @@ import {
 } from "./shared";
 
 async function pushToCloud(summary: ScanSummary, apiKey: string): Promise<void> {
-  const baseUrl = process.env.CITEOPS_API_URL ?? "https://citeops.lovable.app";
+  const baseUrl = process.env.CITEOPS_API_URL ?? "https://citeopscloud.com";
   const res = await fetch(`${baseUrl}/api/public/scan-result`, {
     method: "POST",
     headers: {
@@ -59,7 +59,7 @@ export const scanCommand = addExamples(
           const cloudSpinner = ora("Pushing result to CiteOps Cloud…").start();
           try {
             await pushToCloud(summary, apiKey);
-            cloudSpinner.succeed("Result saved to CiteOps Cloud. View your dashboard at citeops.lovable.app");
+            cloudSpinner.succeed("Result saved to CiteOps Cloud. View your dashboard at citeopscloud.com");
           } catch (err) {
             cloudSpinner.fail(`Cloud push failed: ${err instanceof Error ? err.message : String(err)}`);
           }
@@ -74,9 +74,9 @@ export const scanCommand = addExamples(
       process.stdout.write(renderScanReport(summary));
     }),
   [
-    'citekit scan --name "CiteOps" --domain citeops.ai --competitor "Profound" "Peec AI"',
-    'citekit scan --name "CiteOps" --domain https://citeops.ai --prompt "best ai visibility platform" --json',
-    'CITEOPS_API_KEY=sk-... citekit scan --name "CiteOps" --domain citeops.ai --cloud',
+    'citekit scan --name "CiteOps" --domain citeopscloud.com --competitor "Profound" "Peec AI"',
+    'citekit scan --name "CiteOps" --domain https://citeopscloud.com --prompt "best ai visibility platform" --json',
+    'CITEOPS_API_KEY=sk-... citekit scan --name "CiteOps" --domain citeopscloud.com --cloud',
   ],
   providerCommandNote(),
 );

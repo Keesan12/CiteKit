@@ -104,8 +104,8 @@ export const watchCommand = addExamples(
       await runWatchLoop(input, { intervalMin, promptCount });
     }),
   [
-    'citekit watch --name "CiteOps" --domain citeops.ai --interval 30',
-    'citekit watch --name "CiteOps" --domain citeops.ai --competitor "Profound" --interval 60 --prompt-count 8',
+    'citekit watch --name "CiteOps" --domain citeopscloud.com --interval 30',
+    'citekit watch --name "CiteOps" --domain citeopscloud.com --competitor "Profound" --interval 60 --prompt-count 8',
   ],
   providerCommandNote(),
 );

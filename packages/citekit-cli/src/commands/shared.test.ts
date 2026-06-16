@@ -16,7 +16,7 @@ describe("toBrandSeed", () => {
   it("normalizes competitor names into brand seed objects", () => {
     const seed = toBrandSeed({
       name: "CiteOps",
-      domain: "citeops.ai",
+      domain: "citeopscloud.com",
       competitors: ["Brand X", "Brand Y"],
       persona: "operators",
     });
@@ -28,7 +28,7 @@ describe("toBrandSeed", () => {
 
 describe("normalizeCliDomain", () => {
   it("reduces a canonical site URL down to the host", () => {
-    expect(normalizeCliDomain("https://www.citeops.ai/pricing?ref=test")).toBe("www.citeops.ai");
+    expect(normalizeCliDomain("https://www.citeopscloud.com/pricing?ref=test")).toBe("www.citeopscloud.com");
   });
 
   it("throws on empty domain input", () => {
@@ -53,13 +53,13 @@ describe("toCliBrandInput", () => {
     expect(
       toCliBrandInput({
         name: "CiteOps",
-        domain: "https://citeops.ai/pricing",
+        domain: "https://citeopscloud.com/pricing",
         competitor: ["Profound", " Profound ", "Peec AI"],
         persona: "operators",
       }),
     ).toEqual({
       name: "CiteOps",
-      domain: "citeops.ai",
+      domain: "citeopscloud.com",
       persona: "operators",
       competitors: ["Profound", "Peec AI"],
     });
@@ -81,7 +81,7 @@ describe("renderScore", () => {
     const score = renderScore(
       {
         name: "CiteOps",
-        domain: "citeops.ai",
+        domain: "citeopscloud.com",
         competitors: ["Brand X"],
       },
       extraction,
@@ -98,7 +98,7 @@ describe("summarizeScan", () => {
     const summary = summarizeScan(
       {
         name: "CiteOps",
-        domain: "citeops.ai",
+        domain: "citeopscloud.com",
         competitors: ["Brand X"],
       },
       [
@@ -173,7 +173,7 @@ describe("renderMonitoringReport", () => {
       brand: {
         id: "brand-1",
         name: "CiteOps",
-        domain: "citeops.ai",
+        domain: "citeopscloud.com",
         category: null,
         description: null,
         target_persona: null,

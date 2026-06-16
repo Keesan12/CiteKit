@@ -6,7 +6,7 @@ describe("generatePrompts", () => {
   it("generates 25 prompts with competitive and pricing coverage", () => {
     const prompts = generatePrompts({
       name: "CiteOps",
-      domain: "citeops.ai",
+      domain: "citeopscloud.com",
       category: "AI citation monitoring",
       targetPersona: "growth teams",
       competitors: [{ name: "Profound" }],
@@ -21,12 +21,12 @@ describe("generatePrompts", () => {
 describe("scoreExtraction", () => {
   it("marks a cited brand as won when recommendation_winner matches", () => {
     const score = scoreExtraction(
-      { name: "CiteOps", domain: "citeops.ai" },
+      { name: "CiteOps", domain: "citeopscloud.com" },
       [{ name: "Profound", domain: "useprofound.com" }],
       {
         brands_mentioned: ["CiteOps", "Profound"],
         brands_cited: ["CiteOps"],
-        cited_urls: ["https://citeops.ai/docs"],
+        cited_urls: ["https://citeopscloud.com/docs"],
         off_site_sources: ["reddit"],
         sentiment: "positive",
         recommendation_winner: "CiteOps",

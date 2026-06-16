@@ -5,7 +5,7 @@ import { computeSovSnapshot, planMonitoringSchedule, runCitationMonitoring } fro
 
 function provider(
   extraction: CitationExtraction,
-  rawResponse = "CiteOps is cited at https://citeops.ai",
+  rawResponse = "CiteOps is cited at https://citeopscloud.com",
 ): ProbeProvider {
   return {
     engine: "gpt4o",
@@ -47,7 +47,7 @@ describe("runCitationMonitoring", () => {
       brand: {
         id: "brand-1",
         name: "CiteOps",
-        domain: "citeops.ai",
+        domain: "citeopscloud.com",
         category: "AI visibility",
         description: null,
         target_persona: "B2B operators",
@@ -89,7 +89,7 @@ describe("runCitationMonitoring", () => {
       brand: {
         id: "brand-1",
         name: "CiteOps",
-        domain: "citeops.ai",
+        domain: "citeopscloud.com",
         category: null,
         description: null,
         target_persona: null,

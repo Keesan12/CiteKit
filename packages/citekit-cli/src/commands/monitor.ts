@@ -103,8 +103,8 @@ export const monitorCommand = addExamples(
     process.stdout.write(renderMonitoringReport(report));
   }),
   [
-    'citekit monitor --name "CiteOps" --domain citeops.ai --competitor "Profound"',
-    'citekit monitor --name "CiteOps" --domain citeops.ai --prompt-count 8 --json',
+    'citekit monitor --name "CiteOps" --domain citeopscloud.com --competitor "Profound"',
+    'citekit monitor --name "CiteOps" --domain citeopscloud.com --prompt-count 8 --json',
   ],
   providerCommandNote(),
 );

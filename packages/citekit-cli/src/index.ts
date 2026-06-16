@@ -24,8 +24,8 @@ export function buildProgram(): Command {
       buildExamplesHelp(
         [
           'citekit doctor',
-          'citekit scan --name "CiteOps" --domain citeops.ai --competitor "Profound"',
-          'citekit monitor --name "CiteOps" --domain citeops.ai --prompt-count 8',
+          'citekit scan --name "CiteOps" --domain citeopscloud.com --competitor "Profound"',
+          'citekit monitor --name "CiteOps" --domain citeopscloud.com --prompt-count 8',
           "citekit benchmark --preset founders --max-pages 3 --output docs/benchmarks/founders.json",
         ],
         "Provider-backed commands (`scan`, `monitor`, `probe`, `diagnose`, `fix`, `score`) require at least one configured provider API key in the environment.",
