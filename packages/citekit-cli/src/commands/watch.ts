@@ -91,7 +91,7 @@ export const watchCommand = addExamples(
       .description(
         "Run citekit scan repeatedly on an interval and print score diffs.\n" +
         "This is the OSS autonomous watch mode — no account required.\n" +
-        "Upgrade to CiteOps Cloud for persistent monitoring, GitHub PRs, and proof cards.",
+        "Upgrade to CiteOps Cloud for persistent monitoring, GitHub PRs, and proof cards: https://citeopscloud.com/pricing",
       )
       .option("--interval <minutes>", "Polling interval in minutes", "30")
       .option("--prompt-count <count>", "Number of prompts per scan", "5"),

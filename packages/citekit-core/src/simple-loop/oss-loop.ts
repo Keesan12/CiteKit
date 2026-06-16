@@ -16,7 +16,7 @@ export class OssLoop {
 
   async run<T>(fn: () => Promise<T>, costEstimateUsd = 0): Promise<T> {
     if (this.totalCostUsd + costEstimateUsd > this.maxCostUsd) {
-      throw new Error("Cost cap reached — upgrade to CiteOps Pro for full automation");
+      throw new Error("Cost cap reached — upgrade to CiteOps Cloud for full automation: https://citeopscloud.com/pricing");
     }
 
     for (let attempt = 1; attempt <= this.maxRetries; attempt += 1) {
